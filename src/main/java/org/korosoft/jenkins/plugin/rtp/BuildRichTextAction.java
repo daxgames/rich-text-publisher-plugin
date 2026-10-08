@@ -66,7 +66,10 @@ public class BuildRichTextAction extends AbstractRichTextAction implements Simpl
     
     public BuildRichTextAction(Run<?, ?> build, String richText) {
         this.build = build;
-        this.richText = richText;
+        BuildRichTextAction previousAction = build == null ? null : build.getAction(BuildRichTextAction.class);
+        String previousRichText = previousAction == null ? null : previousAction.richText;
+        this.richText = (previousRichText == null ? "" : previousRichText)
+          + (richText == null ? "" : richText);
         
         List<BuildRichTextAction> projectActions = new ArrayList<>();  
         projectActions.add(this);  
